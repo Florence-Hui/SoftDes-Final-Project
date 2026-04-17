@@ -12,7 +12,7 @@ class Controller():
         self.keys_pressed = {}
     
     def check_inputs(self, keys_pressed):
-        if not self.game.check_transition():
+        if not self.game.check_transition(): #CHANGE BASED ON GAME METHOD
             self.keys_pressed = keys_pressed
             
             is_moving = self.check_movement()
