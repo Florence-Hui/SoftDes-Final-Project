@@ -1,3 +1,7 @@
+"""
+Main file for 2048 game; runs game from GameModel, Controller, and View classes.
+"""
+
 import pygame
 from pygame.locals import QUIT
 from Game import GameModel
