@@ -39,13 +39,13 @@ class Controller():
         Checks all inputs for the game, and calls corresponding methods
         when a key is pressed.
         '''
-        if not self.game.check_transition(): #CHANGE BASED ON GAME METHOD
-            self.keys_pressed = keys_pressed
-            
-            is_moving = self._check_movement()
-            
-            if not is_moving:
-                self._check_other_inputs()
+        #if not self.game.check_animation(): #CHANGE BASED ON GAME METHOD
+        self.keys_pressed = keys_pressed
+        
+        is_moving = self._check_movement()
+        
+        if not is_moving:
+            self._check_other_inputs()
     
     def _check_movement(self):
         '''
@@ -67,9 +67,8 @@ class Controller():
         elif self.keys_pressed[K_RIGHT] or self.keys_pressed[K_d]:
             key = "RIGHT"
         
-        self.game.move_tiles(key)
+        self.game.move(key)
         return key != ""
-        # CHANGE move_tiles TO WHATEVER THE CORRESPONDING METHOD IN THE GAME CLASS IS
     
     def _check_other_inputs(self):
         '''
