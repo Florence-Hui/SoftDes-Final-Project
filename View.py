@@ -1,9 +1,6 @@
 """
 2048 Game View
 """
-
-from turtle import position
-
 import pygame
 
 class View:
