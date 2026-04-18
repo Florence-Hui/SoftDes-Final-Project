@@ -3,7 +3,7 @@ import random
 class Tile:
     """Represents a single tile on the 2048 grid.
 
-    Attributes:
+    Args:
         value (int): The numeric value of the tile (e.g., 2, 4, 8).
         special_type (str): The theme-specific category of the tile.
         merged (bool): Tracks if the tile has already merged during the current turn.
@@ -12,6 +12,7 @@ class Tile:
         self.value = value
         self.special_type = special_type
         self.merged = False
+        self.game_over = False
 
 class GameModel:
     """Handle the logic, math, and grid state of the 2048 game
@@ -144,6 +145,9 @@ class GameModel:
 
         if changed:
             self.add_random_tile()
+            self.check_win()
+            self.check_game_over()
+            
             for row in self.grid:
                 for tile in row:
                     if tile:
@@ -151,19 +155,49 @@ class GameModel:
                         
         return changed
     
+    def check_game_over(self):
+        """
+        Determines if the game is over by checking if any merges/ moves remain
+        Set self.game_over to True if it is impossible
+        """
+        for r in range(self.size):
+            for c in range(self.size):
+                if self.grid[r][c] is None:
+                    return False
+        for r in range(self.size):
+            for c in range(self.size):
+                current_val = self.grid[r][c].value
+                # Check if can merge horizontally
+                if c < self.size - 1:
+                    if self.grid[r][c+1].value == current_val:
+                        return False
+                # Check if can merge vertically
+                if r < self.size - 1:
+                    if self.grid[r+1][c].value == current_val:
+                        return False
+        self.game_over = True
+        self.playing = False
+        return True
+    
     def check_win(self):
         """
-        Checks if any tile on the grid has reached the win_value.
-        If so, stops the game and print 'Congratulations' message
+        Checks if any tile on the board has reached the win_value (2048).
+        If so, stops the game and sets the win state.
         """
+        if not self.playing:
+            return False
 
         for row in self.grid:
             for tile in row:
                 if tile and tile.value >= self.win_value:
-                    print(f"Congratulations! You've reached {tile.value}!")
                     self.playing = False
+                    self.game_over = True 
                     return True
         return False
+                
+
+        
+
         
 class ThemeManager:
     """Manages asset paths and naming conventions for different game tracks."""
