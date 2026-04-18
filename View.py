@@ -23,7 +23,7 @@ class View:
             for c in range(self.model.size):
                 x = c*self.cell_size
                 y = r*self.cell_size + 100
-                tile = self.model.board[r][c]
+                tile = self.model.grid[r][c]
                 if tile is not None:
                     self.draw_tile(tile,x,y)
                 else:
@@ -40,7 +40,6 @@ class View:
         self.screen.blit(text, (20, 20)) # middle?
 
     def animate_move(self, direction):
-        # Store original positions
         old_positions = {}
         for r in range(self.model.size):
             for c in range(self.model.size):
@@ -50,7 +49,6 @@ class View:
 
         self.model.move(direction)
 
-        # Store new positions
         new_positions = {}
         for r in range(self.model.size):
             for c in range(self.model.size):
@@ -58,35 +56,25 @@ class View:
                 if tile:
                     new_positions[id(tile)] = (c, r)
 
-        # Animation loop
         frames = 10
         for frame in range(frames):
             progress = frame / frames
-
             self.screen.fill((255, 255, 255))
             self.show_score()
-
             for tile_id in new_positions:
                 if tile_id in old_positions:
                     start_c, start_r = old_positions[tile_id]
                     end_c, end_r = new_positions[tile_id]
-
-                    # Interpolate position
                     curr_c = start_c + (end_c - start_c) * progress
                     curr_r = start_r + (end_r - start_r) * progress
                 else:
-                    # New tile (just appear)
                     curr_c, curr_r = new_positions[tile_id]
-
                 x = curr_c * self.cell_size
                 y = curr_r * self.cell_size + 100
-
-                # Find tile object again
                 for row in self.model.grid:
                     for t in row:
                         if t and id(t) == tile_id:
                             self.draw_tile(t, x, y)
-
             pygame.display.flip()
             pygame.time.delay(20)
 
