@@ -15,7 +15,7 @@ class View:
         self.position = (0,0)
 
     def draw_grid(self):
-        self.screen.fill((255, 255, 255)) #background: white
+        self.screen.fill((128, 128, 128)) #background: white
         for r in range(self.model.size):
             for c in range(self.model.size):
                 x = c*self.cell_size
