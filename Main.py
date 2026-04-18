@@ -17,6 +17,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    pressed_keys = pygame.key.get_pressed()
+    controller.check_inputs(pressed_keys)
     view.screen = screen
     view.draw_grid()
     view.show_score()
