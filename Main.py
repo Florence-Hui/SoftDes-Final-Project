@@ -22,6 +22,7 @@ while running:
     view.screen = screen
     view.draw_grid()
     view.show_score()
+    view.show_game_status()
 
     pygame.display.flip()
 

@@ -112,15 +112,13 @@ class View:
 
     def show_game_status(self):
         """
-        Displays game over or win messages when the game has ended.
-        For the game over message, the game resets after displaying the message.
+        Displays game over or win messages when no more moves are possible.
         """
-        if self.model.check_game_over():
-            pygame.draw.rect(self.screen, (255, 0, 0), (50, 200, 300, 100)) #square box: red
-            text = self.large_font.render("Game Over!", True, (0, 0, 0)) #text color: black
-            self.screen.blit(text, (80, 220)) # middle?
-            self.model.reset()
-        if self.model.check_win():
+        if self.model.game_over:
             pygame.draw.rect(self.screen, (0, 255, 0), (50, 200, 300, 100)) #square box: green
             text = self.large_font.render("Congratulations!You Graduated!", True, (0, 0, 0))
             self.screen.blit(text, (80, 220))
+        else:
+            pygame.draw.rect(self.screen, (255, 0, 0), (50, 200, 300, 100)) #square box: red
+            text = self.large_font.render("Game Over!", True, (0, 0, 0)) #text color: black
+            self.screen.blit(text, (80, 220)) # middle?
